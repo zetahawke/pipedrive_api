@@ -16,7 +16,8 @@ RSpec.describe PipedriveApi do
   context "When it is a Deal" do
     before(:each) do
       @deal = PipedriveApi::Deal.new
-      @id = 17
+      @id = 19
+      @stage_id = 5
     end
 
     it "get all deals" do
@@ -35,12 +36,44 @@ RSpec.describe PipedriveApi do
     end
 
     it "update an existant deal" do
-      response = @deal.update({ id: @id, title: 'test-update', value: '4000' })
+      response = @deal.update({ id: @id, title: 'test-update', value: '4000', stage_id: @stage_id })
       expect(response['success']).to eq true
     end
 
     it "delete a deal" do
       response = @deal.delete(@id - 1)
+      expect(response['success']).to eq true
+    end
+  end
+
+  context "When it is an Stage" do
+    before(:each) do
+      @stage = PipedriveApi::Stage.new
+      @id = 3
+    end
+
+    it "get all stages" do
+      response = @stage.all
+      expect(response['success']).to eq true
+    end
+
+    it "get details of an stage" do
+      response = @stage.details(@id - 1)
+      expect(response['success']).to eq true
+    end
+
+    it "post a new stage" do
+      response = @stage.create({ name: 'test', pipeline_id: 1 })
+      expect(response['success']).to eq true
+    end
+
+    it "update an existant stage" do
+      response = @stage.update({ id: @id, name: 'test-update', pipeline_id: 1 })
+      expect(response['success']).to eq true
+    end
+
+    it "delete a stage" do
+      response = @stage.delete(@id - 1)
       expect(response['success']).to eq true
     end
   end

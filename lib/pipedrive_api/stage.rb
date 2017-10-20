@@ -29,13 +29,15 @@ module PipedriveApi
     end
 
     def create(opts = {})
-      raise 'You must provide a deal title at least' if opts[:title].nil? || opts[:title] == ''
+      raise 'You must provide an stage name' if opts[:name].nil? || opts[:name] == ''
+      raise 'You must provide an stage pipeline_id' if opts[:pipeline_id].nil? || opts[:pipeline_id] == ''
       response = @connection.post 'stages', opts
       JSON.parse response.body
     end
 
     def update(opts = {})
-      raise 'You must provide a deal ID to update' if opts[:id].nil? || opts[:id] == ''
+      raise 'You must provide an stage name' if opts[:name].nil? || opts[:name] == ''
+      raise 'You must provide an stage pipeline_id' if opts[:pipeline_id].nil? || opts[:pipeline_id] == ''
       response = @connection.put "stages/#{opts[:id]}", opts
       JSON.parse response.body
     end
