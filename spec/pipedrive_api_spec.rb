@@ -4,8 +4,8 @@ require 'spec_helper'
 RSpec.describe PipedriveApi do
   before(:each) do
     PipedriveApi.configure do |config|
-      config.domain = ENV['PIPEDRIVE_DOMAIN'] || PipedriveApi::COMPANY_DOMAIN
-      config.api_token = ENV['PIPEDRIVE_API_TOKEN'] || PipedriveApi::API_TOKEN
+      config.domain = ENV['PIPEDRIVE_DOMAIN']
+      config.api_token = ENV['PIPEDRIVE_API_TOKEN']
     end
   end
 

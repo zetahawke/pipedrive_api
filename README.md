@@ -22,7 +22,16 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Configure with you app's credentials
+Create a file into `config/initializer/pipedrive_api.rb` and put this:
+
+```ruby
+PipedriveApi.configure do |config|
+  config.domain = ENV['PIPEDRIVE_DOMAIN']
+  config.api_token = ENV['PIPEDRIVE_API_TOKEN']
+end
+```
+
 
 ## Development
 
