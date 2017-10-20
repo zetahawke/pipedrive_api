@@ -14,8 +14,9 @@ module PipedriveApi
   class Deal < Base
     def initialize(opts = {})
       set_values(attrs.merge(opts))
-      @connection = Faraday.new("#{PipedriveApi.config.domain}.#{BASE_URL}#{PipedriveApi.config.version}/")
+      @connection = Faraday.new("https://#{PipedriveApi.config.domain}.#{BASE_URL}#{PipedriveApi.config.version}/")
       @connection.headers = PipedriveApi.config.headers
+      @connection.params = PipedriveApi.config.params
     end
 
     def attrs
@@ -23,18 +24,31 @@ module PipedriveApi
     end
 
     def all
-      response = @connection.get "deals#{PipedriveApi.config.extension}"
+      response = @connection.get 'deals'
+      JSON.parse response.body
+    end
+
+    def details(id)
+      raise 'You must provide an ID' if id.nil? || id == ''
+      response = @connection.get "deals/#{id}"
       JSON.parse response.body
     end
 
     def create(opts = {})
-      response = @connection.post "deals#{PipedriveApi.config.extension}", opts.to_json
+      raise 'You must provide a deal title at least' if opts[:title].nil? || opts[:title] == ''
+      response = @connection.post 'deals', opts
       JSON.parse response.body
     end
 
-    def delete(opts = {})
-      raise 'You must pass an ID' if opts[:id].blank?
-      response = @connection.post "deals/#{opts[:id]}#{PipedriveApi.config.extension}", opts.to_json
+    def update(opts = {})
+      raise 'You must provide a deal ID to update' if opts[:id].nil? || opts[:id] == ''
+      response = @connection.put "deals/#{opts[:id]}", opts
+      JSON.parse response.body
+    end
+
+    def delete(id)
+      raise 'You must pass an ID' if id.nil? || id == ''
+      response = @connection.delete "deals/#{id}"
       JSON.parse response.body
     end
   end

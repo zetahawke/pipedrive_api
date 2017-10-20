@@ -1,4 +1,5 @@
-require "spec_helper"
+require 'pry'
+require 'spec_helper'
 
 RSpec.describe PipedriveApi do
   before(:each) do
@@ -12,23 +13,35 @@ RSpec.describe PipedriveApi do
     expect(PipedriveApi::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
-  end
-
   context "When it is a Deal" do
     before(:each) do
       @deal = PipedriveApi::Deal.new
+      @id = 17
     end
 
     it "get all deals" do
       response = @deal.all
-      expect(response['href'].include?('deals')).to eq true
+      expect(response['success']).to eq true
     end
 
-    #it "post a new deal" do
-    #  deal = PipedriveApi::Deal.new({ title: 'test', value: '3000' })
-    #  request = deal.create(deal.to_h)
-    #end
+    it "get details of a deal" do
+      response = @deal.details(@id - 1)
+      expect(response['success']).to eq true
+    end
+
+    it "post a new deal" do
+      response = @deal.create({ title: 'test', value: '3000' })
+      expect(response['success']).to eq true
+    end
+
+    it "update an existant deal" do
+      response = @deal.update({ id: @id, title: 'test-update', value: '4000' })
+      expect(response['success']).to eq true
+    end
+
+    it "delete a deal" do
+      response = @deal.delete(@id - 1)
+      expect(response['success']).to eq true
+    end
   end
 end
