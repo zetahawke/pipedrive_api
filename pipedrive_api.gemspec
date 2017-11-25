@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "pipedrive_api/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "pipedrive_api"
+  spec.name          = "easy_pipedrive"
   spec.version       = PipedriveApi::VERSION
   spec.authors       = ["zetahawke"]
   spec.email         = ["michel.szinavel@gmail.com"]
